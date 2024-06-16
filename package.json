@@ -1,0 +1,23 @@
+{
+  "name": "@bodonkey/charting-extension",
+  "version": "1.0.0",
+  "description": "An extension to add charting to ApostropheCMS.",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint --ext .js,.vue .",
+    "lint": "npm run eslint",
+    "test": "npm run lint && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodonkey/charting-extension.git"
+  },
+  "homepage": "https://github.com/bodonkey/charting-extension#readme",
+  "author": "Apostrophe Technologies",
+  "license": "MIT",
+  "dependencies": {
+    "apostrophe": "^4.4.2",
+    "chart.js": "^4.4.3",
+    "csv": "^6.3.9"
+  }
+}
