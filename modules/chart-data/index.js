@@ -69,12 +69,12 @@ module.exports = {
               });
             });
             chartDataSet.push(parsedData);
-            console.log('data set', chartDataSet);
           } catch (err) {
             console.error(err);
             return { chartDataSet: [] };
           }
-          const columnArray = Object.keys(chartDataSet[0][0]);
+          let columnArray = Object.keys(chartDataSet[0][0])
+          columnArray = columnArray.filter(col => col.trim() !== '');
           chartDataDocument.columns = columnArray;
           chartDataDocument.fileId = dataFile._id;
 

@@ -360,11 +360,11 @@ module.exports = {
                   value: 'numeric'
                 }
               ],
-              def: 'categories',
               required: true
             },
             dataChartType: {
               label: 'Chart Type for data',
+              htmlHelp: '<p style="color: grey;">You can combine line and bar types, or bubble and scatter types.</p><p style="color: grey;">You cannot mix pie and doughnut types.</p>',
               type: 'select',
               def: 'line',
               if: {
@@ -594,9 +594,7 @@ module.exports = {
     return {
       async returnChartData(req, data) {
         const {
-          chartTitle,
-          titlePosition,
-          titleFontSize,
+          titleFields,
           chartLegend,
           legendPosition,
           legendTitle,
@@ -623,6 +621,7 @@ module.exports = {
           graphAnimation,
           chartData
         } = data.data;
+        const { chartTitle, titlePosition, titleFontSize } = titleFields;
         const dataFile = data.dataFile;
         const fileString = await self.apos.http.get(dataFile);
         const chartDataSet = [];
@@ -650,25 +649,26 @@ module.exports = {
             animation: graphAnimation,
             responsive: true,
             plugins: {
-              title: chartTitle
-                ? {
-                  display: true,
-                  text: chartTitle,
-                  position: titlePosition,
-                  font: {
-                    size: titleFontSize
-                  }
+              title: chartTitle ? {
+                display: true,
+                text: chartTitle,
+                position: titlePosition,
+                font: {
+                  size: titleFontSize
                 }
-                : undefined,
+              }
+              : {
+                display: false
+              },
               legend: chartLegend
                 ? {
                   position: legendPosition,
-                  strokeStyle: 'black',
-                  lineWidth: 2,
-                  font: {
-                    size: legendFontSize
-                  },
                   labels: {
+                    strokeStyle: 'black',
+                    lineWidth: 2,
+                    font: {
+                      size: legendFontSize
+                    },
                     usePointStyle: true
                   }
                 }
@@ -694,8 +694,6 @@ module.exports = {
 
         const chartTypes = [];
         let dataLabels, circularData, xData, yData, rData;
-
-        // console.log('chartData', chartData);
 
         chartData.forEach((col) => {
           let multicolumn = false;
@@ -848,6 +846,12 @@ module.exports = {
             );
             return { chartDataSet: [] };
           }
+        }
+
+         // Determine the type of the first non-category dataset and set the config type
+        const firstNonCategoryDataset = config.data.datasets.find(dataset => dataset.type !== 'categories');
+        if (firstNonCategoryDataset) {
+          config.type = firstNonCategoryDataset.type;
         }
 
         return {

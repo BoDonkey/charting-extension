@@ -12,7 +12,7 @@
   </p>
 </div>
 
-This bundle of two extensions adds the a new chart data piece-type to  upload data setsfor charting, as well as a chart widget to allow addition of a number of different chart types to your ApostropheCMS pages.
+This bundle of two extensions adds a new chart data piece-type to upload data sets for charting, as well as a chart widget to allow addition of a number of different chart types to your ApostropheCMS pages.
 
 ## Installation
 

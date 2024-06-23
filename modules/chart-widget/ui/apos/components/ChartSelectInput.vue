@@ -1,4 +1,5 @@
 <script>
+import { ref, reactive, watch, onMounted } from 'vue';
 import AposInputSelect from 'apostrophe/modules/@apostrophecms/schema/ui/apos/components/AposInputSelect.vue';
 
 export default {
@@ -7,22 +8,14 @@ export default {
     AposInputSelect
   },
   extends: AposInputSelect,
-  // emits: [ 'return' ],
-  // data () {
-  //   return {
-  //     wasPopulated: true
-  //   };
-  // },
-  mounted() {
-    console.log('following', this.followingValues?.['<_chartdataSet']?.[0], this.followingValues);
-    //this.setChoices(Object.values(this.followingValues)[0]);
-    this.setChoices(this.followingValues?.['<_chartdataSet']?.[0]);
-  },
-  methods: {
-    setChoices(chartData = {}) {
-      console.log('chartData setChoices', chartData);
+  setup(props) {
+    const choices = ref([]);
+    const field = reactive({ choices: [] });
+
+    const setChoices = (chartData = {}) => {
       const columnValues = chartData?.columns;
-      this.choices = [
+      console.log('columnValues', columnValues);
+      choices.value = [
         {
           label: '',
           value: 'undefined'
@@ -32,18 +25,25 @@ export default {
           value: column
         }))
       ];
-      this.field.choices = this.choices;
-    }
-  },
-  watch: {
-    followingValues: {
-      handler(newValue, oldValue) {
-        if (oldValue !== newValue ){
-          const [ chartdataSet ]  = newValue?.['<_chartdataSet'] || [];
-          this.setChoices(chartdataSet);
-        }
+      field.choices = choices.value;
+    };
+
+    watch(() => props.followingValues, (newValue, oldValue) => {
+      if (oldValue !== newValue) {
+        const [chartdataSet] = newValue?.['<_chartdataSet'] || [];
+        setChoices(chartdataSet);
       }
-    }
+    });
+
+    onMounted(() => {
+      setChoices(props.followingValues?.['<_chartdataSet']?.[0]);
+    });
+
+    return {
+      choices,
+      field,
+      setChoices
+    };
   }
 };
 </script>
