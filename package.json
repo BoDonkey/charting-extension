@@ -1,6 +1,6 @@
 {
   "name": "@bodonkey/charting-extension",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An extension to add charting with chart.js to ApostropheCMS.",
   "main": "index.js",
   "scripts": {
@@ -14,10 +14,14 @@
   },
   "homepage": "https://github.com/bodonkey/charting-extension#readme",
   "author": "Robert Means (BoDonkey)",
-  "keywords": ["chart", "apostrophecms", "extension"],
+  "keywords": [
+    "chart",
+    "apostrophecms",
+    "extension"
+  ],
   "license": "MIT",
   "dependencies": {
-    "apostrophe": "^4.4.2",
+    "apostrophe": "^4.0.0",
     "chart.js": "^4.4.3",
     "csv": "^6.3.9"
   }
